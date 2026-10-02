@@ -1,0 +1,148 @@
+:root {
+  --bg: #111;
+  --panel: rgba(17, 17, 17, 0.88);
+  --text: #fff;
+  --muted: #b5b5b5;
+  --accent: #ffd400;
+  --good: #2ecc71;
+  --bad: #ff4d4d;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#map { position: fixed; inset: 0; background: #0b1a24; }
+
+#prompt {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 12px);
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  pointer-events: none;
+}
+#prompt .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+#target { font-size: 22px; font-weight: 700; margin-top: 2px; }
+
+#toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.chip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #111;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.sheet {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom) + 16px);
+  z-index: 1000;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+}
+.sheet .unit { color: var(--muted); font-size: 16px; margin-left: 2px; }
+.primary {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #111;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+#result .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+#result .right { text-align: right; }
+#score { font-size: 36px; font-weight: 800; color: var(--accent); }
+#distance { color: var(--text); font-size: 16px; }
+#weighted { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+.total { text-align: center; margin-bottom: 6px; }
+#total { font-size: 44px; font-weight: 800; color: var(--accent); }
+#rounds { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 15px; }
+#rounds td { padding: 5px 4px; border-top: 1px solid rgba(255, 255, 255, 0.1); vertical-align: middle; }
+#rounds .num { color: var(--muted); width: 18px; }
+#rounds .name { width: 100%; }
+#rounds .pts { text-align: right; font-weight: 700; white-space: nowrap; }
+#rounds .sub { color: var(--muted); font-size: 12px; font-weight: 400; }
+
+/* Guess / answer markers */
+.pin {
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  color: #111; font-size: 12px; font-weight: 800;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+.pin.guess { background: var(--accent); }
+.pin.answer { background: var(--good); }
+
+/* Dev panel */
+#dev {
+  position: fixed;
+  right: 8px;
+  top: calc(env(safe-area-inset-top) + 92px);
+  z-index: 1000;
+  width: 200px;
+  max-height: 45vh;
+  overflow: auto;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--panel);
+  font-size: 12px;
+}
+#dev label { display: block; margin: 8px 0; }
+#dev input[type=range] { width: 100%; }
+.dev-title { font: inherit; font-weight: 700; font-size: 13px; color: var(--text); background: none; border: 0; padding: 0; }
+#dev.collapsed .dev-body { display: none; }
+.dev-sub { color: var(--muted); margin-top: 8px; }
+#dev table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+#dev td { padding: 2px 0; }
+#dev .dev-link { margin-top: 10px; padding: 0; border: 0; background: none; color: var(--bad); font: inherit; text-decoration: underline; }
+#dev td:last-child { text-align: right; font-weight: 700; }
+
+.leaflet-control-attribution { font-size: 10px; }
+
+/* Hide hairline seams between tiles */
+.leaflet-tile-container img.leaflet-tile { width: 256.5px !important; height: 256.5px !important; }
+
+/* Landing page */
+.landing main { max-width: 420px; margin: 0 auto; padding: 30vh 24px 0; text-align: center; }
+.landing h1 { font-size: 40px; margin: 0 0 12px; }
+.landing p { font-size: 17px; line-height: 1.4; margin: 8px 0; }
+.landing .muted { color: var(--muted); }

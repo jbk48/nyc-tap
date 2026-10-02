@@ -1,0 +1,11 @@
+{
+  "id": "ru3rqq",
+  "title": "Oct 2",
+  "locations": [
+    { "name": "Belvedere Castle", "lat": 40.77938, "lng": -73.96913 },
+    { "name": "Unisphere", "lat": 40.74613, "lng": -73.84517 },
+    { "name": "Wonder Wheel", "lat": 40.57415, "lng": -73.97858 },
+    { "name": "Yankee Stadium", "lat": 40.82919, "lng": -73.9265 },
+    { "name": "St. George Ferry Terminal", "lat": 40.64364, "lng": -74.07363 }
+  ]
+}
