@@ -1,0 +1,11 @@
+{
+  "id": "35u1sh",
+  "title": "Oct 3",
+  "locations": [
+    { "name": "Chrysler Building", "lat": 40.75160, "lng": -73.97534 },
+    { "name": "Murray Hill Tower", "lat": 40.74892, "lng": -73.97327 },
+    { "name": "The Columbia Steps", "lat": 40.80794, "lng": -73.96205 },
+    { "name": "Meet's Office", "lat": 40.75724, "lng": -73.97701 },
+    { "name": "Red Rover", "lat": 40.73111, "lng": -73.95420 }
+  ]
+}
