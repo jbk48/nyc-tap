@@ -41,7 +41,8 @@
 
   // --- Helpers ---
   const fmtDist = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(m < 10000 ? 2 : 1)} km`);
-  const emoji = (s) => (s >= 90 ? "🟢" : s >= 50 ? "🟡" : s >= 1 ? "🔴" : "⚫");
+  const emoji = (s) =>
+    s >= 95 ? "⭐" : s >= 80 ? "🟢" : s >= 60 ? "🟡" : s >= 40 ? "🟠" : s >= 20 ? "🔴" : "😢";
   const total = () => state.results.reduce((sum, r, i) => sum + r.score * WEIGHTS[i], 0);
 
   let toastTimer;
@@ -56,11 +57,14 @@
   // --- Rounds ---
   let round = 0;
   let answered = false;
+  let pending = null; // guess pin placed but not yet confirmed
 
   function startRound(i) {
     round = i;
     answered = false;
+    pending = null;
     layer.clearLayers();
+    $("confirmBar").hidden = true;
     $("result").hidden = true;
     $("roundLabel").innerHTML = `Round ${i + 1} of 5 <span class="chip">×${WEIGHTS[i]}</span>`;
     $("target").textContent = game.locations[i].name;
@@ -73,11 +77,24 @@
     L.marker(loc, { icon: NycMap.pinIcon("answer", label), interactive: false }).addTo(layer);
   }
 
+  // Tap drops (or moves) a pending pin; Confirm locks it in.
   // Leaflet only fires "click" for real taps, not after a drag or pinch.
   map.on("click", (e) => {
     if (answered || state.results.length >= 5) return;
     const guess = { lat: e.latlng.lat, lng: e.latlng.lng };
     if (!inCity(guess)) return toast("Outside NYC");
+
+    if (pending) pending.setLatLng(guess);
+    else pending = L.marker(guess, { icon: NycMap.pinIcon("guess"), interactive: false }).addTo(layer);
+    $("confirmBar").hidden = false;
+  });
+
+  $("confirm").addEventListener("click", () => {
+    if (!pending || answered) return;
+    const guess = { lat: pending.getLatLng().lat, lng: pending.getLatLng().lng };
+    layer.removeLayer(pending);
+    pending = null;
+    $("confirmBar").hidden = true;
 
     answered = true;
     const loc = game.locations[round];
