@@ -9,6 +9,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -92,6 +93,17 @@ html, body {
 #weighted { color: var(--muted); font-size: 14px; margin-top: 2px; }
 
 .total { text-align: center; margin-bottom: 6px; }
+.close {
+  position: absolute; top: 6px; right: 8px;
+  width: 36px; height: 36px; border: 0; border-radius: 50%;
+  background: none; color: var(--muted); font-size: 26px; line-height: 1;
+}
+.sheet.bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; border: 0; color: var(--text); font: inherit; text-align: left;
+}
+#barTotal { font-size: 22px; font-weight: 800; color: var(--accent); }
+.bar-hint { color: var(--muted); font-size: 15px; }
 #total { font-size: 44px; font-weight: 800; color: var(--accent); }
 #rounds { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 15px; }
 #rounds td { padding: 5px 4px; border-top: 1px solid rgba(255, 255, 255, 0.1); vertical-align: middle; }

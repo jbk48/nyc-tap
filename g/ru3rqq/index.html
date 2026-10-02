@@ -36,10 +36,16 @@
   </footer>
 
   <footer id="summary" class="sheet" hidden>
+    <button id="closeSummary" class="close" aria-label="Close results">×</button>
     <div class="total"><span id="total">0</span><span class="unit">/1000</span></div>
     <table id="rounds"></table>
     <button id="share" class="primary">Copy result</button>
   </footer>
+
+  <button id="summaryBar" class="sheet bar" hidden>
+    <span><span id="barTotal">0</span><span class="unit">/1000</span></span>
+    <span class="bar-hint">Show results ▲</span>
+  </button>
 
   <aside id="dev" class="collapsed" hidden>
     <button class="dev-title" id="devToggle">Dev: scoring ▾</button>

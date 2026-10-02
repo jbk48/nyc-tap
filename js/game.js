@@ -42,7 +42,7 @@
   // --- Helpers ---
   const fmtDist = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(m < 10000 ? 2 : 1)} km`);
   const emoji = (s) =>
-    s >= 95 ? "⭐" : s >= 80 ? "🟢" : s >= 60 ? "🟡" : s >= 40 ? "🟠" : s >= 20 ? "🔴" : "😢";
+    s === 100 ? "🎯" : s >= 95 ? "⭐" : s >= 80 ? "🟢" : s >= 60 ? "🟡" : s >= 40 ? "🟠" : s >= 20 ? "🔴" : "😢";
   const total = () => state.results.reduce((sum, r, i) => sum + r.score * WEIGHTS[i], 0);
 
   let toastTimer;
@@ -135,7 +135,6 @@
           <td class="pts">${r.score}${WEIGHTS[i] > 1 ? `<span class="sub"> ×${WEIGHTS[i]}</span>` : ""}</td>
         </tr>`)
       .join("");
-    $("summary").hidden = false;
 
     layer.clearLayers();
     const pts = [];
@@ -146,19 +145,30 @@
     // Let the map zoom out further so every pin fits above the results sheet.
     map.setMaxBounds(cityBounds.pad(1));
     map.setMinZoom(map.getMinZoom() - 2);
-    const sheetH = $("summary").offsetHeight;
-    map.fitBounds(L.latLngBounds(pts), {
+    summaryBounds = L.latLngBounds(pts);
+    setSummaryOpen(true);
+  }
+
+  // The results sheet can be closed to a small bar (to see the map) and reopened.
+  let summaryBounds = null;
+  function setSummaryOpen(open) {
+    $("summary").hidden = !open;
+    $("summaryBar").hidden = open;
+    $("barTotal").textContent = total();
+    const sheetH = (open ? $("summary") : $("summaryBar")).offsetHeight;
+    map.fitBounds(summaryBounds, {
       paddingTopLeft: [30, 110], paddingBottomRight: [30, sheetH + 30], maxZoom: 15, animate: true,
     });
   }
+  $("closeSummary").addEventListener("click", () => setSummaryOpen(false));
+  $("summaryBar").addEventListener("click", () => setSummaryOpen(true));
 
-  // Link sits in the middle (no https://) so chat apps show it as a link, not a big preview card.
   function shareText() {
     const link = location.href.replace(/[?#].*$/, "").replace(/^https?:\/\//, "").replace(/\/$/, "");
     return [
       `NYC Tap${game.title ? ` · ${game.title}` : ""}`,
       link,
-      state.results.map((r) => `${emoji(r.score)} ${r.score}`).join("  "),
+      state.results.map((r) => `${emoji(r.score)}${r.score}`).join("  "),
       `Score: ${total()}/1000`,
     ].join("\n");
   }
