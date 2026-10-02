@@ -1,0 +1,11 @@
+{
+  "id": "rqx1g9",
+  "title": "amigos day 1",
+  "locations": [
+    { "name": "Grand Central Clock", "lat": 40.75269, "lng": -73.97725 },
+    { "name": "Citi Field", "lat": 40.75703, "lng": -73.84576 },
+    { "name": "Luke's School", "lat": 40.82051, "lng": -73.92549 },
+    { "name": "Where Kevin Kissed Lulu", "lat": 40.80794, "lng": -73.96205 },
+    { "name": "Flowcode (Whole Lotta Work)", "lat": 40.72235, "lng": -74.00418 }
+  ]
+}
