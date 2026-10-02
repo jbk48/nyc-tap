@@ -1,0 +1,11 @@
+{
+  "id": "ccc3ye",
+  "title": "amigos day 3",
+  "locations": [
+    { "name": "Barclays Center", "lat": 40.68251, "lng": -73.97525 },
+    { "name": "Botanical Gardens", "lat": 40.86386, "lng": -73.88194 },
+    { "name": "Where Julian Started the NYC Marathon", "lat": 40.60203, "lng": -74.05935 },
+    { "name": "That Sushi Restaurant Anton Took Us To", "lat": 40.75689, "lng": -73.97690 },
+    { "name": "That Rooftop Bar Where Nathan Almost Made Out With an Asian Mom", "lat": 40.74394, "lng": -73.98813 }
+  ]
+}
