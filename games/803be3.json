@@ -1,0 +1,11 @@
+{
+  "id": "803be3",
+  "title": "Friendship!",
+  "locations": [
+    { "name": "The Steps", "lat": 40.80794, "lng": -73.96205 },
+    { "name": "Michelle's Old Office", "lat": 40.76056, "lng": -73.98293 },
+    { "name": "Arlene's Grocery", "lat": 40.72127, "lng": -73.98836 },
+    { "name": "IKEA", "lat": 40.67145, "lng": -74.01122 },
+    { "name": "Moshab's School", "lat": 40.85540, "lng": -73.90324 }
+  ]
+}
