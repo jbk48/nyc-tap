@@ -71,10 +71,17 @@
     map.fitBounds(cityBounds, { animate: true });
   }
 
+  // Draws the guess, the target (a point, or a route drawn as a line), and a dashed link
+  // to the closest spot on the target. Returns that closest spot.
   function drawPair(r, loc, label = "") {
-    L.polyline([r.guess, loc], { color: "#fff", weight: 2, dashArray: "6 6", interactive: false }).addTo(layer);
+    const near = Scoring.measure(r.guess, loc).point;
+    if (loc.lines) {
+      L.polyline(loc.lines, { color: "#2ecc71", weight: 5, opacity: 0.9, interactive: false }).addTo(layer);
+    }
+    L.polyline([r.guess, near], { color: "#fff", weight: 2, dashArray: "6 6", interactive: false }).addTo(layer);
     L.marker(r.guess, { icon: NycMap.pinIcon("guess"), interactive: false }).addTo(layer);
-    L.marker(loc, { icon: NycMap.pinIcon("answer", label), interactive: false }).addTo(layer);
+    L.marker(near, { icon: NycMap.pinIcon("answer", label), interactive: false }).addTo(layer);
+    return near;
   }
 
   // Tap drops (or moves) a pending pin; Confirm locks it in.
@@ -98,13 +105,13 @@
 
     answered = true;
     const loc = game.locations[round];
-    const d = Scoring.haversine(guess, loc);
+    const { d } = Scoring.measure(guess, loc);
     const r = { guess, d, score: Scoring.score(d) };
     state.results.push(r);
     save();
 
-    drawPair(r, loc);
-    map.fitBounds(L.latLngBounds([guess, loc]), {
+    const near = drawPair(r, loc);
+    map.fitBounds(L.latLngBounds([guess, near]), {
       paddingTopLeft: [40, 120], paddingBottomRight: [40, 190], maxZoom: 17, animate: true,
     });
 
@@ -139,8 +146,7 @@
     layer.clearLayers();
     const pts = [];
     state.results.forEach((r, i) => {
-      drawPair(r, game.locations[i], i + 1);
-      pts.push(r.guess, game.locations[i]);
+      pts.push(r.guess, drawPair(r, game.locations[i], i + 1));
     });
     // Let the map zoom out further so every pin fits above the results sheet.
     map.setMaxBounds(cityBounds.pad(1));

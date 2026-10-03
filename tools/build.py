@@ -57,15 +57,21 @@ def main():
         if len(locs) != 5:
             errors.append(f"{f.name}: has {len(locs)} locations, needs 5")
         for loc in locs:
-            if not (40.4 < loc["lat"] < 41.0 and -74.3 < loc["lng"] < -73.6):
-                errors.append(f"{f.name}: '{loc['name']}' is outside NYC ({loc['lat']}, {loc['lng']})")
+            # A location is a point (lat/lng) or a route (lines: [[[lat, lng], ...], ...]).
+            pts = [p for line in loc["lines"] for p in line] if "lines" in loc else [(loc["lat"], loc["lng"])]
+            if not pts:
+                errors.append(f"{f.name}: '{loc['name']}' has no coordinates")
+            for lat, lng in pts:
+                if not (40.4 < lat < 41.0 and -74.3 < lng < -73.6):
+                    errors.append(f"{f.name}: '{loc['name']}' is outside NYC ({lat}, {lng})")
+                    break
             seen.append((f.stem, loc))
 
     for i, (g1, a) in enumerate(seen):
         for g2, b in seen[i + 1:]:
             if norm(a["name"]) == norm(b["name"]):
                 warnings.append(f"same name: '{a['name']}' in {g1} and {g2}")
-            elif haversine(a, b) < DUPLICATE_RADIUS_M:
+            elif "lines" not in a and "lines" not in b and haversine(a, b) < DUPLICATE_RADIUS_M:
                 warnings.append(f"within {DUPLICATE_RADIUS_M} m: '{a['name']}' ({g1}) and '{b['name']}' ({g2})")
 
     if errors:

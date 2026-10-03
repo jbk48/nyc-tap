@@ -12,6 +12,34 @@ const Scoring = (() => {
     return 2 * R * Math.asin(Math.sqrt(h));
   }
 
+  // Nearest point on segment a-b to p, using a flat local projection (accurate at city scale).
+  function nearestOnSegment(p, a, b) {
+    const kx = Math.cos(rad(p.lat));
+    const ax = (a.lng - p.lng) * kx, ay = a.lat - p.lat;
+    const bx = (b.lng - p.lng) * kx, by = b.lat - p.lat;
+    const dx = bx - ax, dy = by - ay;
+    const len2 = dx * dx + dy * dy;
+    const t = len2 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2)) : 0;
+    return { lat: a.lat + t * (b.lat - a.lat), lng: a.lng + t * (b.lng - a.lng) };
+  }
+
+  // A target is either a point {lat, lng} or a route {lines: [[[lat, lng], ...], ...]}.
+  // Returns the distance in meters and the closest spot on the target.
+  function measure(guess, target) {
+    if (!target.lines) return { d: haversine(guess, target), point: { lat: target.lat, lng: target.lng } };
+    let best = { d: Infinity, point: null };
+    for (const line of target.lines) {
+      for (let i = 0; i < line.length - 1; i++) {
+        const a = { lat: line[i][0], lng: line[i][1] };
+        const b = { lat: line[i + 1][0], lng: line[i + 1][1] };
+        const point = nearestOnSegment(guess, a, b);
+        const d = haversine(guess, point);
+        if (d < best.d) best = { d, point };
+      }
+    }
+    return best;
+  }
+
   const params = { lambda: 6800, plateau: 100, dMax: 48000 };
 
   function score(d, p = params) {
@@ -28,5 +56,5 @@ const Scoring = (() => {
     params.dMax = Math.min(ns, ew);
   }
 
-  return { haversine, score, params, setDMaxFromBounds };
+  return { haversine, measure, score, params, setDMaxFromBounds };
 })();
