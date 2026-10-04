@@ -18,6 +18,31 @@ GAMES = ROOT / "games"
 PAGES = ROOT / "g"
 ALPHABET = string.ascii_lowercase + string.digits
 DUPLICATE_RADIUS_M = 150  # two pins this close are probably the same landmark
+REGIONS = {"nyc": "data/nyc-boundary.json", "westchester": "data/westchester-boundary.json"}
+
+
+def load_region(key):
+    geom = json.loads((ROOT / REGIONS[key]).read_text())["geometry"]
+    return [geom["coordinates"]] if geom["type"] == "Polygon" else geom["coordinates"]
+
+
+def in_ring(lng, lat, ring):
+    inside = False
+    j = len(ring) - 1
+    for i in range(len(ring)):
+        (xi, yi), (xj, yj) = ring[i], ring[j]
+        if (yi > lat) != (yj > lat) and lng < (xj - xi) * (lat - yi) / (yj - yi) + xi:
+            inside = not inside
+        j = i
+    return inside
+
+
+def in_region(polys, lat, lng, slack=0.0002):
+    # Allow ~20 m of slack so points sitting exactly on the border (e.g. a route's end) pass.
+    tries = [(lat, lng)] + [(lat + a, lng + b) for a in (-slack, slack) for b in (-slack, slack)]
+    return any(
+        in_ring(x, y, p[0]) and not any(in_ring(x, y, h) for h in p[1:]) for y, x in tries for p in polys
+    )
 
 
 def new_id(n=6):
@@ -45,6 +70,7 @@ def main():
     page = template.replace("<!--BASE-->", '<base href="../../">')
 
     errors, warnings, seen = [], [], []
+    regions = {key: load_region(key) for key in REGIONS}
     files = sorted(GAMES.glob("*.json"))
     for f in files:
         game = json.loads(f.read_text())
@@ -53,6 +79,10 @@ def main():
             errors.append(f"{f.name}: id '{gid}' does not match file name")
         if not game.get("title"):
             warnings.append(f"{f.name}: no title (convention: the date it's sent, e.g. \"Oct 2\")")
+        region = game.get("region", "nyc")
+        if region not in REGIONS:
+            errors.append(f"{f.name}: unknown region '{region}' (use one of: {', '.join(REGIONS)})")
+            continue
         locs = game.get("locations", [])
         if len(locs) != 5:
             errors.append(f"{f.name}: has {len(locs)} locations, needs 5")
@@ -62,8 +92,8 @@ def main():
             if not pts:
                 errors.append(f"{f.name}: '{loc['name']}' has no coordinates")
             for lat, lng in pts:
-                if not (40.4 < lat < 41.0 and -74.3 < lng < -73.6):
-                    errors.append(f"{f.name}: '{loc['name']}' is outside NYC ({lat}, {lng})")
+                if not in_region(regions[region], lat, lng):
+                    errors.append(f"{f.name}: '{loc['name']}' is outside {region} ({lat}, {lng})")
                     break
             seen.append((f.stem, loc))
 

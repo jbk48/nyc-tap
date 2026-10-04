@@ -26,7 +26,9 @@
     return;
   }
 
-  const { map, inCity, cityBounds } = await NycMap.create("map");
+  const { map, inCity, cityBounds, label } = await NycMap.create("map", game.region);
+  const appName = `${label} Tap`;
+  document.title = appName;
   const layer = L.layerGroup().addTo(map);
 
   // --- Saved progress (per device). Storage can be unavailable, so never depend on it. ---
@@ -89,7 +91,7 @@
   map.on("click", (e) => {
     if (answered || state.results.length >= 5) return;
     const guess = { lat: e.latlng.lat, lng: e.latlng.lng };
-    if (!inCity(guess)) return toast("Outside NYC");
+    if (!inCity(guess)) return toast(`Outside ${label}`);
 
     if (pending) pending.setLatLng(guess);
     else pending = L.marker(guess, { icon: NycMap.pinIcon("guess"), interactive: false }).addTo(layer);
@@ -131,7 +133,7 @@
   // --- Results ---
   function showSummary() {
     $("result").hidden = true;
-    $("roundLabel").textContent = game.title || "NYC Tap";
+    $("roundLabel").textContent = game.title || appName;
     $("target").textContent = "Final score";
     $("total").textContent = total();
     $("rounds").innerHTML = state.results
@@ -172,7 +174,7 @@
   function shareText() {
     const link = location.href.replace(/[?#].*$/, "").replace(/^https?:\/\//, "").replace(/\/$/, "");
     return [
-      `NYC Tap${game.title ? ` · ${game.title}` : ""}`,
+      `${appName}${game.title ? ` · ${game.title}` : ""}`,
       link,
       state.results.map((r) => `${emoji(r.score)}${r.score}`).join("  "),
       `Score: ${total()}/1000`,

@@ -1,0 +1,12 @@
+{
+  "id": "1agcr6",
+  "title": "Westchester test",
+  "region": "westchester",
+  "locations": [
+    { "name": "Rye Playland", "lat": 40.96595, "lng": -73.67313 },
+    { "name": "Kensico Dam", "lat": 41.07361, "lng": -73.76589 },
+    { "name": "Sleepy Hollow Lighthouse", "lat": 41.08249, "lng": -73.87041 },
+    { "name": "Westchester County Airport", "lat": 41.06802, "lng": -73.70833 },
+    { "name": "Peekskill Station", "lat": 41.28442, "lng": -73.93193 }
+  ]
+}
