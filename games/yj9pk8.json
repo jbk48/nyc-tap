@@ -1,0 +1,12 @@
+{
+  "id": "yj9pk8",
+  "title": "amigos day 6",
+  "region": "westchester",
+  "locations": [
+    { "name": "Bronxville School", "lat": 40.93752, "lng": -73.83103 },
+    { "name": "New Roc City", "lat": 40.91138, "lng": -73.77924 },
+    { "name": "J&G Deli", "lat": 40.92845, "lng": -73.80880 },
+    { "name": "Site of the Butt Handball", "lat": 41.00195, "lng": -73.80939 },
+    { "name": "RIP Tim's Lexus", "lat": 40.93027, "lng": -73.82138 }
+  ]
+}
