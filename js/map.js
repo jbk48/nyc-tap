@@ -18,6 +18,7 @@ const NycMap = (() => {
       tiles: "https://orthos.its.ny.gov/arcgis/rest/services/wms/2025/MapServer/tile/{z}/{y}/{x}",
       maxNativeZoom: 19,
       attribution: "Imagery: NYS ITS (2025)",
+      scoreScale: 2, // suburban distances: scoring is twice as forgiving as NYC
     },
   };
   const region = (key) => REGIONS[key] || REGIONS.nyc;
@@ -51,7 +52,7 @@ const NycMap = (() => {
         minLng = Math.min(minLng, lng); maxLng = Math.max(maxLng, lng);
       }
     }
-    Scoring.setDMaxFromBounds(minLat, minLng, maxLat, maxLng);
+    Scoring.configure(minLat, minLng, maxLat, maxLng, R.scoreScale || 1);
     const cityBounds = L.latLngBounds([minLat, minLng], [maxLat, maxLng]);
 
     const map = L.map(elementId, {

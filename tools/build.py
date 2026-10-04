@@ -5,8 +5,10 @@ Usage:
   python3 tools/build.py            # validate games, warn on duplicates, write pages
   python3 tools/build.py --new-id   # print a fresh random game id
 """
+import hashlib
 import json
 import math
+import re
 import secrets
 import shutil
 import string
@@ -68,6 +70,12 @@ def main():
 
     template = (ROOT / "game.html").read_text()
     page = template.replace("<!--BASE-->", '<base href="../../">')
+    # Stamp local css/js links with a content hash so phones never mix old and new files after an update.
+    page = re.sub(
+        r'((?:src|href)="((?:js|css)/[^"?]+))"',
+        lambda m: f'{m.group(1)}?v={hashlib.sha1((ROOT / m.group(2)).read_bytes()).hexdigest()[:8]}"',
+        page,
+    )
 
     errors, warnings, seen = [], [], []
     regions = {key: load_region(key) for key in REGIONS}

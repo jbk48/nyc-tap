@@ -40,7 +40,9 @@ const Scoring = (() => {
     return best;
   }
 
-  const params = { lambda: 6800, plateau: 100, dMax: 48000 };
+  // NYC tuning; a region can stretch every distance by a scale (Westchester uses 2).
+  const BASE = { lambda: 6800, plateau: 100 };
+  const params = { ...BASE, dMax: 48000 };
 
   function score(d, p = params) {
     if (d <= p.plateau) return 100;
@@ -48,13 +50,15 @@ const Scoring = (() => {
     return Math.round(100 * Math.exp(-(d - p.plateau) / p.lambda));
   }
 
-  // dMax = smaller side of the boundary's bounding box, so scores match on every device.
-  function setDMaxFromBounds(minLat, minLng, maxLat, maxLng) {
+  // dMax = smaller side of the boundary's bounding box (times the scale), so scores match on every device.
+  function configure(minLat, minLng, maxLat, maxLng, scale = 1) {
     const midLat = (minLat + maxLat) / 2;
     const ns = haversine({ lat: minLat, lng: minLng }, { lat: maxLat, lng: minLng });
     const ew = haversine({ lat: midLat, lng: minLng }, { lat: midLat, lng: maxLng });
-    params.dMax = Math.min(ns, ew);
+    params.lambda = BASE.lambda * scale;
+    params.plateau = BASE.plateau * scale;
+    params.dMax = Math.min(ns, ew) * scale;
   }
 
-  return { haversine, measure, score, params, setDMaxFromBounds };
+  return { haversine, measure, score, params, configure };
 })();
