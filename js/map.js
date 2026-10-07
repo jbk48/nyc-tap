@@ -25,7 +25,7 @@ const NycMap = (() => {
       boundary: "data/usa-boundary.json",
       tiles: null, // Esri World Imagery (the base layer) covers the whole country
       attribution: "",
-      scoreScale: 50, // continental distances: 60 km off scores what 1.2 km does in NYC
+      scoreScale: 70, // continental distances: 84 km off scores what 1.2 km does in NYC
     },
   };
   const region = (key) => REGIONS[key] || REGIONS.nyc;
