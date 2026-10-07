@@ -1,0 +1,12 @@
+{
+  "id": "dc96gu",
+  "title": "amigos day 8",
+  "region": "usa",
+  "locations": [
+    { "name": "cupcake", "lat": 42.09831, "lng": -73.57026 },
+    { "name": "twanzo rn", "lat": 41.88650, "lng": -87.63146 },
+    { "name": "lukathy grad", "lat": 38.84612, "lng": -104.82199 },
+    { "name": "mr. gamble himself (and maybe mr. procter too)", "lat": 39.31454, "lng": -84.30854 },
+    { "name": "where kevin crashed the truck", "lat": 43.72318, "lng": -111.11089 }
+  ]
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="../../">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#111">
+  <title>NYC Tap</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/style.css?v=224ecac2">
+</head>
+<body>
+  <div id="map"></div>
+
+  <header id="prompt">
+    <div class="label" id="roundLabel">Loading…</div>
+    <div id="target"></div>
+  </header>
+
+  <div id="toast" hidden></div>
+
+  <footer id="confirmBar" class="sheet" hidden>
+    <button id="confirm" class="primary">Confirm guess</button>
+  </footer>
+
+  <footer id="result" class="sheet" hidden>
+    <div class="row">
+      <div><span id="score">0</span><span class="unit">/100</span></div>
+      <div class="right">
+        <div id="distance"></div>
+        <div id="weighted"></div>
+      </div>
+    </div>
+    <button id="next" class="primary">Next</button>
+  </footer>
+
+  <footer id="summary" class="sheet" hidden>
+    <button id="closeSummary" class="close" aria-label="Close results">×</button>
+    <div class="total"><span id="total">0</span><span class="unit">/1000</span></div>
+    <table id="rounds"></table>
+    <button id="share" class="primary">Copy result</button>
+  </footer>
+
+  <button id="summaryBar" class="sheet bar" hidden>
+    <span><span id="barTotal">0</span><span class="unit">/1000</span></span>
+    <span class="bar-hint">Show results ▲</span>
+  </button>
+
+  <aside id="dev" class="collapsed" hidden>
+    <button class="dev-title" id="devToggle">Dev: scoring ▾</button>
+    <div class="dev-body">
+      <label>λ (decay) <span id="lambdaVal"></span>
+        <input id="lambda" type="range" min="1000" max="20000" step="100">
+      </label>
+      <label>Plateau <span id="plateauVal"></span>
+        <input id="plateau" type="range" min="0" max="500" step="10">
+      </label>
+      <div class="dev-sub">D<sub>max</sub> = <span id="dmaxVal"></span></div>
+      <table id="sampleTable"></table>
+      <div class="dev-sub">This game's taps</div>
+      <table id="tapTable"></table>
+      <button id="devReset" class="dev-link">Reset this game</button>
+    </div>
+  </aside>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/scoring.js?v=0d88d387"></script>
+  <script src="js/map.js?v=fdff89af"></script>
+  <script src="js/game.js?v=e373ee67"></script>
+</body>
+</html>
