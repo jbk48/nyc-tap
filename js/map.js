@@ -1,4 +1,4 @@
-// Satellite map locked to a region (NYC or Westchester), with its outline and an inside-the-region test.
+// Satellite map locked to a region (NYC, Westchester or the continental US), with its outline and an inside-the-region test.
 const NycMap = (() => {
   const ESRI_TILES =
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
@@ -19,6 +19,13 @@ const NycMap = (() => {
       maxNativeZoom: 19,
       attribution: "Imagery: NYS ITS (2025)",
       scoreScale: 2, // suburban distances: scoring is twice as forgiving as NYC
+    },
+    usa: {
+      label: "USA",
+      boundary: "data/usa-boundary.json",
+      tiles: null, // Esri World Imagery (the base layer) covers the whole country
+      attribution: "",
+      scoreScale: 50, // continental distances: 60 km off scores what 1.2 km does in NYC
     },
   };
   const region = (key) => REGIONS[key] || REGIONS.nyc;
@@ -68,12 +75,14 @@ const NycMap = (() => {
     map.attributionControl.setPrefix(false);
 
     L.tileLayer(ESRI_TILES, { maxZoom: 20, maxNativeZoom: 18, attribution: "Esri World Imagery" }).addTo(map);
-    L.tileLayer(R.tiles, {
-      maxZoom: 20,
-      maxNativeZoom: R.maxNativeZoom,
-      bounds: cityBounds.pad(0.05),
-      attribution: R.attribution,
-    }).addTo(map);
+    if (R.tiles) {
+      L.tileLayer(R.tiles, {
+        maxZoom: 20,
+        maxNativeZoom: R.maxNativeZoom,
+        bounds: cityBounds.pad(0.05),
+        attribution: R.attribution,
+      }).addTo(map);
+    }
 
     // Dim everything outside the city, then trace the outline.
     const world = [[-89, -179], [-89, 179], [89, 179], [89, -179]];

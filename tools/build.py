@@ -20,7 +20,11 @@ GAMES = ROOT / "games"
 PAGES = ROOT / "g"
 ALPHABET = string.ascii_lowercase + string.digits
 DUPLICATE_RADIUS_M = 150  # two pins this close are probably the same landmark
-REGIONS = {"nyc": "data/nyc-boundary.json", "westchester": "data/westchester-boundary.json"}
+REGIONS = {
+    "nyc": "data/nyc-boundary.json",
+    "westchester": "data/westchester-boundary.json",
+    "usa": "data/usa-boundary.json",
+}
 
 
 def load_region(key):

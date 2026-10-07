@@ -1,0 +1,12 @@
+{
+  "id": "72dv4d",
+  "title": "USA test",
+  "region": "usa",
+  "locations": [
+    { "name": "Statue of Liberty", "lat": 40.68925, "lng": -74.04450 },
+    { "name": "Golden Gate Bridge", "lat": 37.81993, "lng": -122.47825 },
+    { "name": "Gateway Arch", "lat": 38.62470, "lng": -90.18477 },
+    { "name": "Mount Rushmore", "lat": 43.87910, "lng": -103.45907 },
+    { "name": "Space Needle", "lat": 47.62049, "lng": -122.34928 }
+  ]
+}

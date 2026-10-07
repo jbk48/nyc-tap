@@ -42,7 +42,7 @@ const Scoring = (() => {
 
   // NYC tuning; a region can stretch every distance by a scale (Westchester uses 2).
   const BASE = { lambda: 6800, plateau: 100 };
-  const params = { ...BASE, dMax: 48000 };
+  const params = { ...BASE, dMax: 48000, scale: 1 };
 
   function score(d, p = params) {
     if (d <= p.plateau) return 100;
@@ -58,6 +58,7 @@ const Scoring = (() => {
     params.lambda = BASE.lambda * scale;
     params.plateau = BASE.plateau * scale;
     params.dMax = Math.min(ns, ew) * scale;
+    params.scale = scale;
   }
 
   return { haversine, measure, score, params, configure };

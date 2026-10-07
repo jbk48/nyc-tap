@@ -42,7 +42,10 @@
   const state = load();
 
   // --- Helpers ---
-  const fmtDist = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(m < 10000 ? 2 : 1)} km`);
+  const fmtDist = (m) =>
+    m < 1000 ? `${Math.round(m)} m`
+    : m < 100000 ? `${(m / 1000).toFixed(m < 10000 ? 2 : 1)} km`
+    : `${Math.round(m / 1000).toLocaleString("en-US")} km`;
   const emoji = (s) =>
     s === 100 ? "🎯" : s >= 95 ? "⭐" : s >= 80 ? "🟢" : s >= 60 ? "🟡" : s >= 40 ? "🟠" : s >= 20 ? "🔴" : "😢";
   const total = () => state.results.reduce((sum, r, i) => sum + r.score * WEIGHTS[i], 0);
@@ -208,7 +211,7 @@
   });
 
   // --- Dev panel: visible with ?dev in the URL ---
-  const SAMPLE_DISTANCES = [100, 1200, 5000, 10000, 20000, 30000];
+  const SAMPLE_DISTANCES = [100, 1200, 5000, 10000, 20000, 30000].map((d) => d * Scoring.params.scale);
   function renderDev() {
     if (!devMode) return;
     const p = Scoring.params;
@@ -228,6 +231,9 @@
     $("dev").hidden = false;
     window._map = map;
     $("devToggle").addEventListener("click", () => $("dev").classList.toggle("collapsed"));
+    const k = Scoring.params.scale; // slider ranges follow the region's distance scale
+    Object.assign($("lambda"), { min: 1000 * k, max: 20000 * k, step: 100 * k });
+    Object.assign($("plateau"), { min: 0, max: 500 * k, step: 10 * k });
     $("lambda").value = Scoring.params.lambda;
     $("plateau").value = Scoring.params.plateau;
     $("lambda").addEventListener("input", (e) => { Scoring.params.lambda = +e.target.value; renderDev(); });
