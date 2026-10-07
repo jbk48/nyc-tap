@@ -1,0 +1,12 @@
+{
+  "id": "cwjn1s",
+  "title": "amigos day 7",
+  "region": "westchester",
+  "locations": [
+    { "name": "Dog Park", "lat": 40.94002, "lng": -73.81521 },
+    { "name": "Where Nathan Almost Got Hit by a Car", "lat": 40.94454, "lng": -73.82762 },
+    { "name": "Valhalla's Square Ahh Track", "lat": 41.09167, "lng": -73.77424 },
+    { "name": "Prom (I think??)", "lat": 40.89234, "lng": -73.77674 },
+    { "name": "Where Jack Worked for the Past Year", "lat": 41.03498, "lng": -73.69346 }
+  ]
+}
