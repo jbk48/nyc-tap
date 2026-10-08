@@ -1,4 +1,5 @@
-// Satellite map locked to a region (NYC, Westchester or the continental US), with its outline and an inside-the-region test.
+// Satellite map locked to a region (NYC, Westchester, the continental US or the whole world),
+// with its outline and an inside-the-region test.
 const NycMap = (() => {
   const ESRI_TILES =
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
@@ -27,6 +28,14 @@ const NycMap = (() => {
       attribution: "",
       scoreScale: 100, // continental distances: 120 km off scores what 1.2 km does in NYC
     },
+    world: {
+      label: "World",
+      boundary: null, // no outline: anywhere on Earth counts
+      bounds: [[-60, -180], [80, 180]],
+      tiles: null,
+      attribution: "",
+      scoreScale: 600, // global distances: 720 km off scores what 1.2 km does in NYC
+    },
   };
   const region = (key) => REGIONS[key] || REGIONS.nyc;
 
@@ -45,14 +54,16 @@ const NycMap = (() => {
 
   async function create(elementId, regionKey) {
     const R = region(regionKey);
-    const boundary = await fetch(R.boundary).then((r) => r.json());
-    const polys =
-      boundary.geometry.type === "Polygon" ? [boundary.geometry.coordinates] : boundary.geometry.coordinates;
+    // A region without a boundary (the world) accepts every tap and has no outline.
+    const boundary = R.boundary ? await fetch(R.boundary).then((r) => r.json()) : null;
+    const polys = !boundary ? []
+      : boundary.geometry.type === "Polygon" ? [boundary.geometry.coordinates] : boundary.geometry.coordinates;
 
     const inCity = ({ lat, lng }) =>
+      !boundary ||
       polys.some(([outer, ...holes]) => inRing(lng, lat, outer) && !holes.some((h) => inRing(lng, lat, h)));
 
-    let minLat = 90, minLng = 180, maxLat = -90, maxLng = -180;
+    let [[minLat, minLng], [maxLat, maxLng]] = R.bounds || [[90, 180], [-90, -180]];
     for (const [outer] of polys) {
       for (const [lng, lat] of outer) {
         minLat = Math.min(minLat, lat); maxLat = Math.max(maxLat, lat);
@@ -65,7 +76,7 @@ const NycMap = (() => {
     const map = L.map(elementId, {
       zoomControl: false,
       doubleClickZoom: false, // a tap is a guess, so double-tap can't zoom
-      maxBounds: cityBounds.pad(0.15),
+      maxBounds: boundary ? cityBounds.pad(0.15) : [[-85, -180], [85, 180]],
       maxBoundsViscosity: 1.0,
       zoomSnap: 0.25,
       maxZoom: 20,
@@ -84,15 +95,17 @@ const NycMap = (() => {
       }).addTo(map);
     }
 
-    // Dim everything outside the city, then trace the outline.
-    const world = [[-89, -179], [-89, 179], [89, 179], [89, -179]];
-    const toLatLngs = (ring) => ring.map(([lng, lat]) => [lat, lng]);
-    L.polygon([world, ...polys.map(([outer]) => toLatLngs(outer))], {
-      stroke: false, fillColor: "#000", fillOpacity: 0.55, interactive: false,
-    }).addTo(map);
-    L.polygon(polys.map((p) => p.map(toLatLngs)), {
-      color: "#fff", weight: 2, opacity: 0.85, fill: false, interactive: false,
-    }).addTo(map);
+    // Dim everything outside the region, then trace the outline.
+    if (boundary) {
+      const world = [[-89, -179], [-89, 179], [89, 179], [89, -179]];
+      const toLatLngs = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+      L.polygon([world, ...polys.map(([outer]) => toLatLngs(outer))], {
+        stroke: false, fillColor: "#000", fillOpacity: 0.55, interactive: false,
+      }).addTo(map);
+      L.polygon(polys.map((p) => p.map(toLatLngs)), {
+        color: "#fff", weight: 2, opacity: 0.85, fill: false, interactive: false,
+      }).addTo(map);
+    }
 
     return { map, inCity, cityBounds, label: R.label };
   }

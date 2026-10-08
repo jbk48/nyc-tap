@@ -24,10 +24,13 @@ REGIONS = {
     "nyc": "data/nyc-boundary.json",
     "westchester": "data/westchester-boundary.json",
     "usa": "data/usa-boundary.json",
+    "world": None,  # no boundary: anywhere counts
 }
 
 
 def load_region(key):
+    if REGIONS[key] is None:
+        return None
     geom = json.loads((ROOT / REGIONS[key]).read_text())["geometry"]
     return [geom["coordinates"]] if geom["type"] == "Polygon" else geom["coordinates"]
 
@@ -44,6 +47,8 @@ def in_ring(lng, lat, ring):
 
 
 def in_region(polys, lat, lng, slack=0.0002):
+    if polys is None:
+        return -90 <= lat <= 90 and -180 <= lng <= 180
     # Allow ~20 m of slack so points sitting exactly on the border (e.g. a route's end) pass.
     tries = [(lat, lng)] + [(lat + a, lng + b) for a in (-slack, slack) for b in (-slack, slack)]
     return any(

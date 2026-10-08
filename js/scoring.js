@@ -54,7 +54,8 @@ const Scoring = (() => {
   function configure(minLat, minLng, maxLat, maxLng, scale = 1) {
     const midLat = (minLat + maxLat) / 2;
     const ns = haversine({ lat: minLat, lng: minLng }, { lat: maxLat, lng: minLng });
-    const ew = haversine({ lat: midLat, lng: minLng }, { lat: midLat, lng: maxLng });
+    // Measure east-west as twice the half-span, so a full 360° (the world) doesn't collapse to zero.
+    const ew = 2 * haversine({ lat: midLat, lng: minLng }, { lat: midLat, lng: (minLng + maxLng) / 2 });
     params.lambda = BASE.lambda * scale;
     params.plateau = BASE.plateau * scale;
     params.dMax = Math.min(ns, ew) * scale;
