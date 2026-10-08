@@ -1,0 +1,12 @@
+{
+  "id": "c9ifsm",
+  "title": "amigos day 9",
+  "region": "usa",
+  "locations": [
+    { "name": "da lake", "lat": 41.45731, "lng": -73.44408 },
+    { "name": "bowdoink", "lat": 43.90692, "lng": -69.96153 },
+    { "name": "lawyer mooney", "lat": 36.14793, "lng": -86.80027 },
+    { "name": "coach cignetti", "lat": 39.18089, "lng": -86.52564 },
+    { "name": "the doctor will see you now", "lat": 37.25749, "lng": -79.94261 }
+  ]
+}
