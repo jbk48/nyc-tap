@@ -47,11 +47,13 @@ const Scoring = (() => {
   function score(d, p = params) {
     if (d <= p.plateau) return 100;
     if (d >= p.dMax) return 0;
-    return Math.round(100 * Math.exp(-(d - p.plateau) / p.lambda));
+    const s = Math.round(100 * Math.exp(-(d - p.plateau) / p.lambda));
+    return p.strict ? Math.min(s, 99) : s; // strict: only taps inside the plateau earn 100
   }
 
   // dMax = smaller side of the boundary's bounding box (times the scale), so scores match on every device.
-  function configure(minLat, minLng, maxLat, maxLng, scale = 1) {
+  // A region can instead give exact values (overrides), e.g. the world's MapTap-style curve.
+  function configure(minLat, minLng, maxLat, maxLng, scale = 1, overrides = null) {
     const midLat = (minLat + maxLat) / 2;
     const ns = haversine({ lat: minLat, lng: minLng }, { lat: maxLat, lng: minLng });
     // Measure east-west as twice the half-span, so a full 360° (the world) doesn't collapse to zero.
@@ -60,6 +62,10 @@ const Scoring = (() => {
     params.plateau = BASE.plateau * scale;
     params.dMax = Math.min(ns, ew) * scale;
     params.scale = scale;
+    if (overrides) {
+      Object.assign(params, overrides);
+      params.scale = params.plateau / BASE.plateau; // keeps the dev panel's ranges sensible
+    }
   }
 
   return { haversine, measure, score, params, configure };

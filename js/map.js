@@ -34,7 +34,8 @@ const NycMap = (() => {
       bounds: [[-60, -180], [80, 180]],
       tiles: null,
       attribution: "",
-      scoreScale: 600, // global distances: 720 km off scores what 1.2 km does in NYC
+      // Fitted to MapTap's published points: 100 within ~20 km, 98 at 100 km, 81 at 1,000 km, 0 past 16,250 km.
+      scoring: { plateau: 20000, lambda: 4650000, dMax: 16250000, strict: true },
     },
   };
   const region = (key) => REGIONS[key] || REGIONS.nyc;
@@ -70,7 +71,7 @@ const NycMap = (() => {
         minLng = Math.min(minLng, lng); maxLng = Math.max(maxLng, lng);
       }
     }
-    Scoring.configure(minLat, minLng, maxLat, maxLng, R.scoreScale || 1);
+    Scoring.configure(minLat, minLng, maxLat, maxLng, R.scoreScale || 1, R.scoring);
     const cityBounds = L.latLngBounds([minLat, minLng], [maxLat, maxLng]);
 
     const map = L.map(elementId, {

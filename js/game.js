@@ -232,7 +232,7 @@
     window._map = map;
     $("devToggle").addEventListener("click", () => $("dev").classList.toggle("collapsed"));
     const k = Scoring.params.scale; // slider ranges follow the region's distance scale
-    Object.assign($("lambda"), { min: 1000 * k, max: 20000 * k, step: 100 * k });
+    Object.assign($("lambda"), { min: 1000 * k, max: Math.max(20000 * k, 2 * Scoring.params.lambda), step: 100 * k });
     Object.assign($("plateau"), { min: 0, max: 500 * k, step: 10 * k });
     $("lambda").value = Scoring.params.lambda;
     $("plateau").value = Scoring.params.plateau;
