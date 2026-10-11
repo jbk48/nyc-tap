@@ -1,4 +1,4 @@
-// Satellite map locked to a region (NYC, Westchester, the continental US or the whole world),
+// Satellite map locked to a region (NYC, Westchester, Bronxville, the continental US or the whole world),
 // with its outline and an inside-the-region test.
 const NycMap = (() => {
   const ESRI_TILES =
@@ -20,6 +20,14 @@ const NycMap = (() => {
       maxNativeZoom: 19,
       attribution: "Imagery: NYS ITS (2025)",
       scoreScale: 2, // suburban distances: scoring is twice as forgiving as NYC
+    },
+    bronxville: {
+      label: "Bronxville",
+      boundary: "data/bronxville-boundary.json",
+      tiles: "https://orthos.its.ny.gov/arcgis/rest/services/wms/2025/MapServer/tile/{z}/{y}/{x}",
+      maxNativeZoom: 19,
+      attribution: "Imagery: NYS ITS (2025)",
+      scoreScale: 0.25, // a ~2 km village: 300 m off scores what 1.2 km does in NYC
     },
     usa: {
       label: "USA",

@@ -1,0 +1,12 @@
+{
+  "id": "50n0ve",
+  "title": "amigos day 11",
+  "region": "bronxville",
+  "locations": [
+    { "name": "poinsettia pickup", "lat": 40.93858, "lng": -73.83063 },
+    { "name": "parson basement", "lat": 40.94217, "lng": -73.81946 },
+    { "name": "the vomapoo", "lat": 40.94242, "lng": -73.81975 },
+    { "name": "nathan's shed", "lat": 40.94706, "lng": -73.83203 },
+    { "name": "risky business", "lat": 40.93862, "lng": -73.82823 }
+  ]
+}

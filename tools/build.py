@@ -23,6 +23,7 @@ DUPLICATE_RADIUS_M = 150  # two pins this close are probably the same landmark
 REGIONS = {
     "nyc": "data/nyc-boundary.json",
     "westchester": "data/westchester-boundary.json",
+    "bronxville": "data/bronxville-boundary.json",
     "usa": "data/usa-boundary.json",
     "world": None,  # no boundary: anywhere counts
 }

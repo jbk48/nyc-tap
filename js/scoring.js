@@ -60,7 +60,8 @@ const Scoring = (() => {
     const ew = 2 * haversine({ lat: midLat, lng: minLng }, { lat: midLat, lng: (minLng + maxLng) / 2 });
     params.lambda = BASE.lambda * scale;
     params.plateau = BASE.plateau * scale;
-    params.dMax = Math.min(ns, ew) * scale;
+    // Never cut off before scores have decayed to ~0 (48 km in NYC terms), so tiny regions like a village still taper.
+    params.dMax = Math.max(Math.min(ns, ew), 48000) * scale;
     params.scale = scale;
     if (overrides) {
       Object.assign(params, overrides);
