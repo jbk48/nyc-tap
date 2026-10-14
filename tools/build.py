@@ -113,6 +113,8 @@ def main():
                 if not in_region(regions[region], lat, lng):
                     errors.append(f"{f.name}: '{loc['name']}' is outside {region} ({lat}, {lng})")
                     break
+            if loc.get("photo") and not (ROOT / loc["photo"]).is_file():
+                errors.append(f"{f.name}: '{loc['name']}' photo not found: {loc['photo']}")
             seen.append((f.stem, loc))
 
     for i, (g1, a) in enumerate(seen):

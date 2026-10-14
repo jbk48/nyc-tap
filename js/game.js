@@ -74,7 +74,23 @@
     $("roundLabel").innerHTML = `Round ${i + 1} of 5 <span class="chip">×${WEIGHTS[i]}</span>`;
     $("target").textContent = game.locations[i].name;
     map.fitBounds(cityBounds, { animate: true });
+    showPhotoFor(game.locations[i]);
   }
+
+  // A location can carry a clue photo: it opens when the round starts and can be reopened from the 📷 button.
+  function showPhotoFor(loc) {
+    const has = Boolean(loc && loc.photo);
+    $("photoBtn").hidden = !has;
+    $("photoModal").hidden = !has;
+    if (has) $("photoImg").src = loc.photo;
+  }
+  $("photoBtn").addEventListener("click", () => ($("photoModal").hidden = false));
+  $("photoClose").addEventListener("click", () => ($("photoModal").hidden = true));
+  $("photoModal").addEventListener("click", (e) => {
+    if (e.target === $("photoModal")) $("photoModal").hidden = true; // tap outside the photo closes it
+  });
+  // Load clue photos up front so they appear instantly.
+  game.locations.forEach((l) => l.photo && (new Image().src = l.photo));
 
   // Draws the guess, the target (a point, or a route drawn as a line), and a dashed link
   // to the closest spot on the target. Returns that closest spot.
@@ -136,6 +152,7 @@
   // --- Results ---
   function showSummary() {
     $("result").hidden = true;
+    showPhotoFor(null);
     $("roundLabel").textContent = game.title || appName;
     $("target").textContent = "Final score";
     $("total").textContent = total();

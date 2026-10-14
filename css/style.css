@@ -112,6 +112,35 @@ html, body {
 #rounds .pts { text-align: right; font-weight: 700; white-space: nowrap; }
 #rounds .sub { color: var(--muted); font-size: 12px; font-weight: 400; }
 
+/* Clue photo */
+.photo-btn {
+  position: fixed;
+  left: 16px;
+  top: calc(env(safe-area-inset-top) + 92px);
+  z-index: 1000;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 16px);
+  background: rgba(0, 0, 0, 0.7);
+}
+.photo-card { position: relative; max-width: 100%; max-height: 100%; }
+.photo-card img { display: block; max-width: 100%; max-height: calc(100vh - 64px); border-radius: 12px; }
+.photo-card .close { top: 6px; right: 6px; background: rgba(0, 0, 0, 0.55); color: #fff; }
+
 /* Guess / answer markers */
 .pin {
   width: 22px; height: 22px;
