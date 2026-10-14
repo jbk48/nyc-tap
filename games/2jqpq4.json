@@ -1,0 +1,11 @@
+{
+  "id": "2jqpq4",
+  "title": "amigos day 12",
+  "locations": [
+    { "name": "luigi", "lat": 40.76248, "lng": -73.97976 },
+    { "name": "van cortlandt park", "lat": 40.89230, "lng": -73.89391 },
+    { "name": "the place we all got food poisoning", "lat": 40.72712, "lng": -73.98027 },
+    { "name": "luke and zip's elementary school", "lat": 40.80744, "lng": -73.96584 },
+    { "name": "fk it somewhere in staten island", "lat": 40.49662, "lng": -74.24881 }
+  ]
+}
