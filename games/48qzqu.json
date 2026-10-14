@@ -1,0 +1,11 @@
+{
+  "id": "48qzqu",
+  "title": "amigos day 10",
+  "locations": [
+    { "name": "throgs neck bridge", "lat": 40.80047, "lng": -73.79364 },
+    { "name": "roosevelt island tram", "lat": 40.75732, "lng": -73.95409 },
+    { "name": "ayat", "lat": 40.72423, "lng": -73.97892 },
+    { "name": "the armory", "lat": 40.84212, "lng": -73.94127 },
+    { "name": "where kevin surfs", "lat": 40.58360, "lng": -73.81325 }
+  ]
+}
