@@ -3,10 +3,10 @@
   "title": "amigos day 14",
   "region": "europe",
   "locations": [
-    { "name": "this picture", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-1.jpg" },
-    { "name": "(round 2 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
-    { "name": "(round 3 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
-    { "name": "(round 4 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
-    { "name": "(round 5 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" }
+    { "name": "if you don't get this you a real dumbass", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-1.jpg" },
+    { "name": "hint: not the night lucas made out with that spanish girl for 3 hours", "lat": 41.38700, "lng": 2.17000, "photo": "img/lulpuc-2.jpg" },
+    { "name": "beach day", "lat": 38.68446, "lng": -9.31227, "photo": "img/lulpuc-3.jpg" },
+    { "name": "stately lads", "lat": 51.30493, "lng": -0.63501, "photo": "img/lulpuc-4.jpg" },
+    { "name": "i smashed my thumb 2 hours before this", "lat": 40.10216, "lng": 19.74730, "photo": "img/lulpuc-5.jpg" }
   ]
 }
