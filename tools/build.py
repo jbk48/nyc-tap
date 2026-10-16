@@ -25,6 +25,7 @@ REGIONS = {
     "westchester": "data/westchester-boundary.json",
     "bronxville": "data/bronxville-boundary.json",
     "usa": "data/usa-boundary.json",
+    "europe": None,  # no boundary: anywhere counts
     "world": None,  # no boundary: anywhere counts
 }
 

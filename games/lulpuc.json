@@ -1,0 +1,12 @@
+{
+  "id": "lulpuc",
+  "title": "amigos day 14",
+  "region": "europe",
+  "locations": [
+    { "name": "this picture", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-1.jpg" },
+    { "name": "(round 2 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
+    { "name": "(round 3 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
+    { "name": "(round 4 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" },
+    { "name": "(round 5 photo coming)", "lat": 48.85826, "lng": 2.29450, "photo": "img/lulpuc-placeholder.svg" }
+  ]
+}

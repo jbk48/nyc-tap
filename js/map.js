@@ -1,4 +1,4 @@
-// Satellite map locked to a region (NYC, Westchester, Bronxville, the continental US or the whole world),
+// Satellite map locked to a region (NYC, Westchester, Bronxville, the continental US, Europe or the whole world),
 // with its outline and an inside-the-region test.
 const NycMap = (() => {
   const ESRI_TILES =
@@ -36,8 +36,18 @@ const NycMap = (() => {
       attribution: "",
       scoreScale: 100, // continental distances: 120 km off scores what 1.2 km does in NYC
     },
+    europe: {
+      label: "Europe",
+      boundary: null, // no outline: any tap in the view counts
+      bounds: [[34, -25], [71, 45]],
+      maxBounds: [[25, -40], [78, 60]],
+      tiles: null,
+      attribution: "",
+      scoreScale: 100, // same scale as the US: 120 km off scores what 1.2 km does in NYC
+    },
     world: {
       label: "World",
+      maxBounds: [[-85, -180], [85, 180]],
       boundary: null, // no outline: anywhere on Earth counts
       bounds: [[-60, -180], [80, 180]],
       tiles: null,
@@ -85,7 +95,7 @@ const NycMap = (() => {
     const map = L.map(elementId, {
       zoomControl: false,
       doubleClickZoom: false, // a tap is a guess, so double-tap can't zoom
-      maxBounds: boundary ? cityBounds.pad(0.15) : [[-85, -180], [85, 180]],
+      maxBounds: R.maxBounds || cityBounds.pad(0.15),
       maxBoundsViscosity: 1.0,
       zoomSnap: 0.25,
       maxZoom: 20,
